@@ -95,26 +95,27 @@ public class Cardinal extends JavaPlugin {
         cmdRegister.register(JoinCommand.class);
         cmdRegister.register(RotationCommands.class);
         cmdRegister.register(CancelCommand.class);
-        cmdRegister.register(TeamCommands.TeamParentCommand.class);
         cmdRegister.register(ModesCommand.class);
         cmdRegister.register(ClassCommands.class);
         cmdRegister.register(CardinalCommand.class);
         cmdRegister.register(ChatCommands.class);
         cmdRegister.register(SettingCommands.class);
-        cmdRegister.register(WhitelistCommands.WhitelistParentCommand.class);
         cmdRegister.register(SnowflakesCommand.class);
         cmdRegister.register(TeleportCommands.class);
         cmdRegister.register(PrivateMessageCommands.class);
         cmdRegister.register(ModeratorCommand.class);
         cmdRegister.register(PunishmentCommands.class);
         cmdRegister.register(StatsCommand.class);
-        cmdRegister.register(ReadyCommand.class);
         cmdRegister.register(ListCommand.class);
         cmdRegister.register(TimeLimitCommand.class);
         cmdRegister.register(ScoreCommand.class);
         cmdRegister.register(ProximityCommand.class);
         cmdRegister.register(BroadcastCommands.class);
         cmdRegister.register(NickCommands.class);
+
+        cmdRegister.register(TeamCommands.TeamParentCommand.class);
+        cmdRegister.register(WhitelistCommands.WhitelistParentCommand.class);
+        cmdRegister.register(TournamentCommands.TournamentParentCommand.class);
     }
 
     private void checkCraftVersion() {

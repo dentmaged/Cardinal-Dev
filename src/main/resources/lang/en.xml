@@ -121,6 +121,9 @@
         <autoBalance>Teams will be auto-balanced if {0} remains stacked</autoBalance>
         <youChangedRating>You changed your rating for {1} {2} from {3} to {0}.</youChangedRating>
         <teamSizeChanged>{0} max-overfill was set to {1}</teamSizeChanged>
+        <teamRegister>{0} was successfully registered!</teamRegister>
+        <teamClear>The registered teams list was successfully cleared!</teamClear>
+        <reloadedMaps>All maps were successfully reloaded!</reloadedMaps>
     </generic>
     <misc>
         <enemy>the enemy</enemy>

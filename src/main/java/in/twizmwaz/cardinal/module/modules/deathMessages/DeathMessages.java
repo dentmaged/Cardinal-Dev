@@ -1,13 +1,16 @@
 package in.twizmwaz.cardinal.module.modules.deathMessages;
 
+import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.chat.UnlocalizedChatMessage;
 import in.twizmwaz.cardinal.event.CardinalDeathEvent;
 import in.twizmwaz.cardinal.module.Module;
+import in.twizmwaz.cardinal.module.modules.nicks.NickModule;
 import in.twizmwaz.cardinal.module.modules.tracker.Cause;
 import in.twizmwaz.cardinal.module.modules.tracker.Type;
 import in.twizmwaz.cardinal.module.modules.tracker.event.TrackerDamageEvent;
 import in.twizmwaz.cardinal.settings.Settings;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -30,6 +33,8 @@ public class DeathMessages implements Module {
         try {
             if (TeamUtils.getTeamByPlayer(event.getPlayer()) != null) {
                 String name = TeamUtils.getTeamColorByPlayer(event.getPlayer()) + event.getPlayer().getName(), deathMessage;
+                if (GameHandler.getGameHandler().getMatch().getModules().getModule(NickModule.class).getNick(event.getPlayer()) != null)
+                    name = TeamUtils.getTeamColorByPlayer(event.getPlayer()) + GameHandler.getGameHandler().getMatch().getModules().getModule(NickModule.class).getNick(event.getPlayer());
                 DamageCause cause = event.getPlayer().getLastDamageCause().getCause();
                 int fallDistance = Math.round(event.getPlayer().isInsideVehicle() ? event.getPlayer().getVehicle().getFallDistance() : event.getPlayer().getFallDistance());
                 if (cause.equals(DamageCause.BLOCK_EXPLOSION) || cause.equals(DamageCause.ENTITY_EXPLOSION)) {
