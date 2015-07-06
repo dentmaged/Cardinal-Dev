@@ -4,6 +4,7 @@ import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.event.RankChangeEvent;
 import in.twizmwaz.cardinal.match.Match;
 import in.twizmwaz.cardinal.module.modules.nicks.NickModule;
+import in.twizmwaz.cardinal.util.ChatUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
 import in.twizmwaz.cardinal.util.UUIDFetcher;
 
@@ -15,11 +16,13 @@ import org.bukkit.entity.Player;
 import com.sk89q.minecraft.util.commands.Command;
 import com.sk89q.minecraft.util.commands.CommandContext;
 import com.sk89q.minecraft.util.commands.CommandException;
+import com.sk89q.minecraft.util.commands.CommandPermissions;
 
 public class NickCommands {
 
     @SuppressWarnings("deprecation")
-    @Command(aliases = "nick", desc = "Changes your nickname", usage = "<show|off|nick>", min = 1, max = 2)
+    @Command(aliases = "nick", desc = "Changes your nickname", usage = "<show|off|nick>", min = 1, max = 2, flags = "i")
+    @CommandPermissions("cardinal.nick")
     public static void nick(final CommandContext args, CommandSender sender) throws CommandException {
         if (!(sender instanceof Player))
             throw new CommandException("Only players may run this command!");
@@ -47,10 +50,9 @@ public class NickCommands {
         if (nick.equalsIgnoreCase("off"))
             check = false;
 
-        if (check)
+        if (check) {
             sender.sendMessage(ChatColor.YELLOW + "Checking nickname " + TeamUtils.getTeamColorByPlayer(target) + nick + ChatColor.YELLOW + "...");
 
-        if (check) {
             try {
                 taken = UUIDFetcher.getUUIDOf(nick) != null;
             } catch (Exception e) {
@@ -64,11 +66,21 @@ public class NickCommands {
         }
 
         if (!taken) {
-            if (target.getName() != sender.getName())
-                target.sendMessage(TeamUtils.getTeamColorByPlayer(target) + target.getName() + ChatColor.YELLOW + " is now disguised as " + TeamUtils.getTeamColorByPlayer(target) + nick + ChatColor.YELLOW + "!");
-            target.sendMessage(ChatColor.YELLOW + "You are now disguised as " + TeamUtils.getTeamColorByPlayer(target) + nick + ChatColor.YELLOW + "!");
-            match.getModules().getModule(NickModule.class).setNick(target, nick);
-            Bukkit.getPluginManager().callEvent(new RankChangeEvent(target, TeamUtils.getTeamByPlayer(target)));
+            boolean instant = args.hasFlag('i');
+            if (instant) {
+                if (target.getName() != sender.getName())
+                    target.sendMessage(TeamUtils.getTeamColorByPlayer(target) + target.getName() + ChatColor.YELLOW + " is now disguised as " + TeamUtils.getTeamColorByPlayer(target) + nick + ChatColor.YELLOW + "!");
+                target.sendMessage(ChatColor.YELLOW + "You are now disguised as " + TeamUtils.getTeamColorByPlayer(target) + nick + ChatColor.YELLOW + "!");
+                ChatUtils.getAdminChannel().sendMessage("[" + ChatColor.GOLD + "A" + ChatColor.WHITE + "] " + TeamUtils.getTeamColorByPlayer(target) + target.getName() + ChatColor.YELLOW + " is disguised as " + TeamUtils.getTeamColorByPlayer(target) + nick + ChatColor.YELLOW + "!");
+                match.getModules().getModule(NickModule.class).setNick(target, nick, instant);
+                Bukkit.getPluginManager().callEvent(new RankChangeEvent(target, TeamUtils.getTeamByPlayer(target)));
+            } else {
+                if (target.getName() != sender.getName())
+                    target.sendMessage(TeamUtils.getTeamColorByPlayer(target) + target.getName() + ChatColor.YELLOW + " will be disguised as " + TeamUtils.getTeamColorByPlayer(target) + nick + ChatColor.YELLOW + " when they next join the server!");
+                target.sendMessage(ChatColor.YELLOW + "You will be disguised as " + TeamUtils.getTeamColorByPlayer(target) + nick + ChatColor.YELLOW + " when you next join the server!");
+                ChatUtils.getAdminChannel().sendMessage("[" + ChatColor.GOLD + "A" + ChatColor.WHITE + "] " + TeamUtils.getTeamColorByPlayer(target) + target.getName() + ChatColor.YELLOW + " will be disguised as " + TeamUtils.getTeamColorByPlayer(target) + nick + ChatColor.YELLOW + " when they next join the server!");
+                match.getModules().getModule(NickModule.class).setNick(target, nick, instant);
+            }
         } else if (taken && check) {
             sender.sendMessage(ChatColor.RED + "That nickname is taken!");
         } else {

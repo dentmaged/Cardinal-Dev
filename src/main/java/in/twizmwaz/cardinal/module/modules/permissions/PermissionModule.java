@@ -12,8 +12,14 @@ import in.twizmwaz.cardinal.module.modules.nicks.NickModule;
 import in.twizmwaz.cardinal.rank.Rank;
 import in.twizmwaz.cardinal.util.TeamUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,13 +29,6 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.Plugin;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public class PermissionModule implements Module {
 
@@ -180,8 +179,8 @@ public class PermissionModule implements Module {
         Player player = event.getPlayer();
         String nick = GameHandler.getGameHandler().getMatch().getModules().getModule(NickModule.class).getNick(player);
         if (nick != null) {
-            player.setDisplayName(event.getTeam().getColor() + nick);
-            player.setPlayerListName(event.getTeam().getColor() + nick);
+            player.setDisplayName(event.getTeam().getColor() + nick.replace(".", ""));
+            player.setPlayerListName(event.getTeam().getColor() + nick.replace(".", ""));
         } else {
             String prefix = Rank.getPlayerPrefix(event.getPlayer().getUniqueId());
             player.setDisplayName(prefix + event.getTeam().getColor() + event.getPlayer().getName());
