@@ -4,8 +4,9 @@ import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.match.Match;
 import in.twizmwaz.cardinal.module.Module;
 import in.twizmwaz.cardinal.module.modules.scoreboard.ScoreboardModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -27,7 +28,7 @@ public class FriendlyFire implements Module {
         this.match = match;
         this.arrowReturn = arrowReturn;
         if (enabled) {
-            for (TeamModule team : TeamUtils.getTeams()) {
+            for (Team team : TeamUtils.getTeams()) {
                 for (ScoreboardModule scoreboard : GameHandler.getGameHandler().getMatch().getModules().getModules(ScoreboardModule.class)) {
                     scoreboard.getScoreboard().getTeam(team.getId()).setAllowFriendlyFire(false);
                 }
@@ -69,7 +70,7 @@ public class FriendlyFire implements Module {
             }
         }
         if (proceed && event.getPotion().getShooter() instanceof Player && TeamUtils.getTeamByPlayer((Player) event.getPotion().getShooter()) != null) {
-            TeamModule team = TeamUtils.getTeamByPlayer((Player) event.getPotion().getShooter());
+            Team team = TeamUtils.getTeamByPlayer((Player) event.getPotion().getShooter());
             for (LivingEntity affected : event.getAffectedEntities()) {
                 if (affected instanceof Player && TeamUtils.getTeamByPlayer((Player) affected) != null && TeamUtils.getTeamByPlayer((Player) affected) == team && !affected.equals((Player) event.getPotion().getShooter())) {
                     event.setIntensity(affected, 0);

@@ -1,6 +1,7 @@
 package in.twizmwaz.cardinal.event;
 
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -12,11 +13,11 @@ public class PlayerChangeTeamEvent extends Event implements Cancellable {
 
     private final Player player;
     private final boolean forced;
-    private TeamModule newTeam;
-    private TeamModule oldTeam;
+    private Team newTeam;
+    private Team oldTeam;
     private boolean cancelled;
 
-    public PlayerChangeTeamEvent(Player player, boolean forced, TeamModule newTeam, TeamModule oldTeam) {
+    public PlayerChangeTeamEvent(Player player, boolean forced, Team newTeam, Team oldTeam) {
         this.player = player;
         this.forced = forced;
         this.newTeam = newTeam;
@@ -35,11 +36,11 @@ public class PlayerChangeTeamEvent extends Event implements Cancellable {
         return player;
     }
 
-    public TeamModule getNewTeam() {
+    public Team getNewTeam() {
         return newTeam;
     }
 
-    public TeamModule getOldTeam() {
+    public Team getOldTeam() {
         return oldTeam;
     }
 

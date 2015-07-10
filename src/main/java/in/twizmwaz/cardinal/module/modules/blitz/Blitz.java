@@ -8,8 +8,9 @@ import in.twizmwaz.cardinal.chat.LocalizedChatMessage;
 import in.twizmwaz.cardinal.event.CardinalSpawnEvent;
 import in.twizmwaz.cardinal.event.MatchEndEvent;
 import in.twizmwaz.cardinal.module.Module;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class Blitz implements Module {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        TeamModule team = TeamUtils.getTeamByPlayer(player);
+        Team team = TeamUtils.getTeamByPlayer(player);
         if (team != null && !team.isObserver()) {
             int oldMeta = this.getLives(player);
             player.removeMetadata("lives", Cardinal.getInstance());

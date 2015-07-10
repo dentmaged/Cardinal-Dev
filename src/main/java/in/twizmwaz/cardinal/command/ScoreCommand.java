@@ -4,15 +4,17 @@ import com.sk89q.minecraft.util.commands.Command;
 import com.sk89q.minecraft.util.commands.CommandContext;
 import com.sk89q.minecraft.util.commands.CommandException;
 import com.sk89q.minecraft.util.commands.CommandPermissionsException;
+
 import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.module.GameObjective;
 import in.twizmwaz.cardinal.module.modules.cores.CoreObjective;
 import in.twizmwaz.cardinal.module.modules.score.ScoreModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.module.modules.timeLimit.TimeLimit;
 import in.twizmwaz.cardinal.module.modules.wools.WoolObjective;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.MiscUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -26,7 +28,7 @@ public class ScoreCommand {
             TimeLimit.Result result = GameHandler.getGameHandler().getMatch().getModules().getModule(TimeLimit.class).getResult();
             if (result.equals(TimeLimit.Result.HIGHEST_SCORE)) {
                 int score = 0;
-                for (TeamModule team : TeamUtils.getTeams()) {
+                for (Team team : TeamUtils.getTeams()) {
                     if (!team.isObserver()) {
                         sender.sendMessage(ChatColor.RED + "Calculating scores for " + team.getCompleteName());
                         for (ScoreModule scoreModule : GameHandler.getGameHandler().getMatch().getModules().getModules(ScoreModule.class)) {
@@ -42,14 +44,14 @@ public class ScoreCommand {
                     sender.sendMessage(TimeLimit.getMatchWinner().getCompleteName() + ChatColor.GOLD + " is winning with " + score + " points");
                 }
             } else if (result.equals(TimeLimit.Result.TIE)) {
-                for (TeamModule team : TeamUtils.getTeams()) {
+                for (Team team : TeamUtils.getTeams()) {
                     if (!team.isObserver()) {
                         sender.sendMessage(ChatColor.RED + "Calculating scores for " + team.getCompleteName());
                     }
                 }
                 sender.sendMessage(ChatColor.GOLD + "Teams are tied");
             } else if (result.equals(TimeLimit.Result.TEAM)) {
-                for (TeamModule team : TeamUtils.getTeams()) {
+                for (Team team : TeamUtils.getTeams()) {
                     if (!team.isObserver()) {
                         sender.sendMessage(ChatColor.RED + "Calculating scores for " + team.getCompleteName());
                     }
@@ -57,7 +59,7 @@ public class ScoreCommand {
                 sender.sendMessage(GameHandler.getGameHandler().getMatch().getModules().getModule(TimeLimit.class).getTeam().getCompleteName() + ChatColor.GOLD + " is winning");
             } else if (result.equals(TimeLimit.Result.MOST_PLAYERS)) {
                 int players = 0;
-                for (TeamModule team : TeamUtils.getTeams()) {
+                for (Team team : TeamUtils.getTeams()) {
                     if (!team.isObserver()) {
                         sender.sendMessage(ChatColor.RED + "Calculating scores for " + team.getCompleteName());
                         if (team.size() > players) {
@@ -71,7 +73,7 @@ public class ScoreCommand {
                     sender.sendMessage(TimeLimit.getMatchWinner().getCompleteName() + ChatColor.GOLD + " is winning with " + players + " players");
                 }
             } else if (result.equals(TimeLimit.Result.MOST_OBJECTIVES)) {
-                for (TeamModule team : TeamUtils.getTeams()) {
+                for (Team team : TeamUtils.getTeams()) {
                     if (!team.isObserver()) {
                         sender.sendMessage(ChatColor.RED + "Calculating scores for " + team.getCompleteName());
                         for (GameObjective obj : TeamUtils.getShownObjectives(team)) {

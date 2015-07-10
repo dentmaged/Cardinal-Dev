@@ -9,10 +9,11 @@ import in.twizmwaz.cardinal.module.modules.filter.FilterModule;
 import in.twizmwaz.cardinal.module.modules.filter.FilterModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModule;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModuleBuilder;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.NumUtils;
 import in.twizmwaz.cardinal.util.StringUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.jdom2.Element;
 
 @BuilderData(load = ModuleLoadTime.EARLIER)
@@ -92,7 +93,7 @@ public class HillObjectiveBuilder implements ModuleBuilder {
             permanent = NumUtils.parseBoolean(element.getParentElement().getAttributeValue("permanent"));
         if (element.getAttributeValue("permanent") != null)
             permanent = NumUtils.parseBoolean(element.getAttributeValue("permanent"));
-        TeamModule initialOwner = null;
+        Team initialOwner = null;
         if (element.getParentElement().getAttributeValue("initial-owner") != null)
             initialOwner = TeamUtils.getTeamById(element.getParentElement().getAttributeValue("initial-owner"));
         if (element.getAttributeValue("initial-owner") != null)

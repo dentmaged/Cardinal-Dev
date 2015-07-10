@@ -10,9 +10,10 @@ import in.twizmwaz.cardinal.module.modules.filter.FilterModule;
 import in.twizmwaz.cardinal.module.modules.filter.FilterState;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModule;
 import in.twizmwaz.cardinal.module.modules.score.ScoreModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.ChatUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -53,7 +54,7 @@ public class Scorebox implements Module {
                             for (ItemStack item : redeemables.keySet()) {
                                 if (event.getPlayer().getInventory().contains(item)) {
                                     for (ScoreModule score : GameHandler.getGameHandler().getMatch().getModules().getModules(ScoreModule.class)) {
-                                        TeamModule playerTeam = TeamUtils.getTeamByPlayer(event.getPlayer());
+                                        Team playerTeam = TeamUtils.getTeamByPlayer(event.getPlayer());
                                         if (playerTeam != null && score.getTeam() == playerTeam) {
                                             event.getPlayer().getInventory().remove(item);
                                             points += redeemables.get(item);
@@ -64,7 +65,7 @@ public class Scorebox implements Module {
                         }
                         points += this.points;
                         if (points != 0) {
-                            TeamModule playerTeam = TeamUtils.getTeamByPlayer(event.getPlayer());
+                            Team playerTeam = TeamUtils.getTeamByPlayer(event.getPlayer());
                             if (playerTeam != null) {
                                 for (ScoreModule score : GameHandler.getGameHandler().getMatch().getModules().getModules(ScoreModule.class)) {
                                     if (score.getTeam() == playerTeam) {

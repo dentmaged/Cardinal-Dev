@@ -1,7 +1,8 @@
 package in.twizmwaz.cardinal.event;
 
 import in.twizmwaz.cardinal.module.modules.spawn.SpawnModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -12,10 +13,10 @@ public class CardinalSpawnEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private final Player player;
     private final SpawnModule spawn;
-    private final TeamModule team;
+    private final Team team;
     private boolean cancelled;
 
-    public CardinalSpawnEvent(final Player player, final SpawnModule spawn, final TeamModule team) {
+    public CardinalSpawnEvent(final Player player, final SpawnModule spawn, final Team team) {
         this.player = player;
         this.spawn = spawn;
         this.team = team;
@@ -33,7 +34,7 @@ public class CardinalSpawnEvent extends Event implements Cancellable {
         return spawn;
     }
 
-    public TeamModule getTeam() {
+    public Team getTeam() {
         return team;
     }
 

@@ -5,10 +5,11 @@ import in.twizmwaz.cardinal.module.BuilderData;
 import in.twizmwaz.cardinal.module.ModuleBuilder;
 import in.twizmwaz.cardinal.module.ModuleCollection;
 import in.twizmwaz.cardinal.module.ModuleLoadTime;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.NumUtils;
 import in.twizmwaz.cardinal.util.StringUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.jdom2.Element;
 
 @BuilderData(load = ModuleLoadTime.LATE)
@@ -49,7 +50,7 @@ public class ScoreModuleBuilder implements ModuleBuilder {
                 pointsPerDeath = NumUtils.parseInt(score.getChild("deaths").getText());
             }
         }
-        for (TeamModule team : TeamUtils.getTeams()) {
+        for (Team team : TeamUtils.getTeams()) {
             if (!team.isObserver()) {
                 results.add(new ScoreModule(team, pointsPerKill, pointsPerDeath, max));
             }

@@ -34,4 +34,5 @@ public class PlayerUtils {
         if (PermissionModule.isMod(player.getUniqueId())) return 1.5;
         return 1.0;
     }
+
 }

@@ -6,11 +6,14 @@ import in.twizmwaz.cardinal.module.ModuleCollection;
 import in.twizmwaz.cardinal.module.modules.chatChannels.AdminChannel;
 import in.twizmwaz.cardinal.module.modules.chatChannels.GlobalChannel;
 import in.twizmwaz.cardinal.module.modules.chatChannels.TeamChannel;
+import in.twizmwaz.cardinal.module.modules.nicks.NickModule;
+import in.twizmwaz.cardinal.rank.Rank;
+
+import java.util.Locale;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Locale;
 
 public class ChatUtils {
 
@@ -42,6 +45,22 @@ public class ChatUtils {
 
     public static ModuleCollection<TeamChannel> getTeamChannels() {
         return GameHandler.getGameHandler().getMatch().getModules().getModules(TeamChannel.class);
+    }
+
+    public static String getUsername(CommandSender sender) {
+        return ((sender instanceof Player) ? TeamUtils.getTeamColorByPlayer((Player) sender) + ((Player) sender).getDisplayName() : ChatColor.YELLOW + "*Console");
+    }
+
+    public static String getUsername(Player player, Player viewer) {
+        String username = TeamUtils.getTeamColorByPlayer(player) + "";
+        if (GameHandler.getGameHandler().getMatch().getModules().getModule(NickModule.class).getNick(player) != null && player.hasPermission("cardinal.staff"))
+            if (GameHandler.getGameHandler().getMatch().getModules().getModule(NickModule.class).isActive(player))
+                username += Rank.getPlayerPrefix(player.getUniqueId()) + username + ChatColor.STRIKETHROUGH + player.getName() + ChatColor.RESET + " " + player.getDisplayName();
+            else
+                username += Rank.getPlayerPrefix(player.getUniqueId()) + username + ChatColor.STRIKETHROUGH + player.getName() + ChatColor.RESET + " " + ChatColor.ITALIC + GameHandler.getGameHandler().getMatch().getModules().getModule(NickModule.class).getNick(player);
+        else
+            username += player.getDisplayName();
+        return username;
     }
 
     public static enum ChannelType {

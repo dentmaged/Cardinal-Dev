@@ -3,7 +3,8 @@ package in.twizmwaz.cardinal.module.modules.spawn;
 import in.twizmwaz.cardinal.module.Module;
 import in.twizmwaz.cardinal.module.modules.kit.Kit;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
@@ -13,7 +14,7 @@ import java.util.Random;
 
 public class SpawnModule implements Module {
 
-    private final TeamModule team;
+    private final Team team;
     private final List<Pair<RegionModule, Vector>> regions;
     private final Kit kit;
     private final boolean safe;
@@ -21,7 +22,7 @@ public class SpawnModule implements Module {
     //private final Filter filter;
     private int position;
 
-    public SpawnModule(TeamModule team, List<Pair<RegionModule, Vector>> regions, Kit kit, boolean safe, boolean sequential) {
+    public SpawnModule(Team team, List<Pair<RegionModule, Vector>> regions, Kit kit, boolean safe, boolean sequential) {
         this.team = team;
         this.regions = regions;
         this.kit = kit;
@@ -34,7 +35,7 @@ public class SpawnModule implements Module {
     public void unload() {
     }
 
-    public TeamModule getTeam() {
+    public Team getTeam() {
         return team;
     }
 

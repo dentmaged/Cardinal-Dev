@@ -8,9 +8,10 @@ import in.twizmwaz.cardinal.module.ModuleLoadTime;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModule;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.regions.type.combinations.UnionRegion;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.NumUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Material;
 import org.jdom2.Element;
 
@@ -23,7 +24,7 @@ public class CoreObjectiveBuilder implements ModuleBuilder {
         ModuleCollection result = new ModuleCollection<>();
         for (Element element : match.getDocument().getRootElement().getChildren("cores")) {
             for (Element subElement : element.getChildren("core")) {
-                TeamModule team;
+                Team team;
                 try {
                     team = TeamUtils.getTeamById(subElement.getAttributeValue("team"));
                 } catch (NullPointerException e) {
@@ -90,7 +91,7 @@ public class CoreObjectiveBuilder implements ModuleBuilder {
             }
             for (Element child : element.getChildren("cores")) {
                 for (Element subChild : child.getChildren("core")) {
-                    TeamModule team;
+                    Team team;
                     try {
                         team = TeamUtils.getTeamById(subChild.getAttributeValue("team"));
                     } catch (NullPointerException e) {

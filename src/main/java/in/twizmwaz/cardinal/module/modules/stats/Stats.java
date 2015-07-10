@@ -2,6 +2,7 @@ package in.twizmwaz.cardinal.module.modules.stats;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 import in.twizmwaz.cardinal.Cardinal;
 import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.chat.ChatConstant;
@@ -15,9 +16,10 @@ import in.twizmwaz.cardinal.module.modules.chatChannels.ChatChannelModule;
 import in.twizmwaz.cardinal.module.modules.chatChannels.GlobalChannel;
 import in.twizmwaz.cardinal.module.modules.matchTimer.MatchTimer;
 import in.twizmwaz.cardinal.module.modules.matchTranscript.MatchTranscript;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.settings.Settings;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -52,7 +54,7 @@ public class Stats implements Module {
 
 
     private List<MatchTracker> stats;
-    private Map<OfflinePlayer, TeamModule> playerTeams = Maps.newHashMap();
+    private Map<OfflinePlayer, Team> playerTeams = Maps.newHashMap();
 
     protected Stats() {
         stats = Lists.newArrayList();
@@ -183,9 +185,9 @@ public class Stats implements Module {
             element.text(element.text().replace("%matchTime", Double.toString(GameHandler.getGameHandler().getMatch().getModules().getModule(MatchTimer.class).getEndTime())));
         }
         Element teams = document.getElementById("teams");
-        for (TeamModule team : TeamUtils.getTeams()) {
+        for (Team team : TeamUtils.getTeams()) {
             teams.appendElement("h3").text(team.getName());
-            for (Map.Entry<OfflinePlayer, TeamModule> entry : playerTeams.entrySet()) {
+            for (Map.Entry<OfflinePlayer, Team> entry : playerTeams.entrySet()) {
                 if (entry.getValue() == team) {
                     if (!team.isObserver()) {
                         teams.appendElement("p").text(entry.getKey().getName() + ": Kills: " + getKillsByPlayer(entry.getKey()) + ", Deaths: " + getDeathsByPlayer(entry.getKey()) + ", KD: " + (Math.round(getKdByPlayer(entry.getKey()) / 100.0) * 100.0)).attr("class", "media-body");

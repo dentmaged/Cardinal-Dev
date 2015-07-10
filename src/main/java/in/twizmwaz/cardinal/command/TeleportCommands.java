@@ -7,10 +7,13 @@ import com.sk89q.minecraft.util.commands.CommandException;
 import com.sk89q.minecraft.util.commands.CommandPermissions;
 import com.sk89q.minecraft.util.commands.CommandPermissionsException;
 import com.sk89q.minecraft.util.commands.CommandUsageException;
+
 import in.twizmwaz.cardinal.chat.ChatConstant;
 import in.twizmwaz.cardinal.chat.LocalizedChatMessage;
+import in.twizmwaz.cardinal.util.ChatUtils;
 import in.twizmwaz.cardinal.util.NumUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -23,10 +26,14 @@ public class TeleportCommands {
         if (sender instanceof Player) {
             if (cmd.argsLength() == 1) {
                 if (sender.hasPermission("cardinal.teleport") || (TeamUtils.getTeamByPlayer((Player) sender) != null && TeamUtils.getTeamByPlayer((Player) sender).isObserver())) {
+                    if (!(sender instanceof Player))
+                        throw new CommandException("Only players may run this command!");
+
                     try {
                         Player player = Bukkit.getPlayer(cmd.getString(0));
                         ((Player) sender).teleport(player);
                         sender.sendMessage(ChatColor.YELLOW + "Teleported.");
+                        ChatUtils.getAdminChannel().sendMessage(ChatUtils.getUsername(sender) + ChatColor.GRAY + " teleported to " + ChatUtils.getUsername(player));
                     } catch (NullPointerException e) {
                         throw new CommandException(new LocalizedChatMessage(ChatConstant.ERROR_NO_PLAYER_MATCH).getMessage(((Player) sender).getLocale()));
                     }
@@ -40,6 +47,7 @@ public class TeleportCommands {
                         Player to = Bukkit.getPlayer(cmd.getString(1));
                         from.teleport(to);
                         sender.sendMessage(ChatColor.YELLOW + "Teleported.");
+                        ChatUtils.getAdminChannel().sendMessage(ChatUtils.getUsername(sender) + ChatColor.GRAY + " teleported " + ChatUtils.getUsername(from) + ChatColor.GRAY + " to " + ChatUtils.getUsername(to));
                     } catch (NullPointerException e) {
                         throw new CommandException(new LocalizedChatMessage(ChatConstant.ERROR_NO_PLAYER_MATCH).getMessage(((Player) sender).getLocale()));
                     }
@@ -47,6 +55,9 @@ public class TeleportCommands {
                     throw new CommandPermissionsException();
                 }
             } else if (cmd.argsLength() == 3) {
+                if (!(sender instanceof Player))
+                    throw new CommandException("Only players may run this command!");
+
                 if (sender.hasPermission("cardinal.teleport")) {
                     double x = cmd.getString(0).equals("~") ? 0 : NumUtils.parseDouble(cmd.getString(0).replaceAll("~", ""));
                     double y = cmd.getString(1).equals("~") ? 0 : NumUtils.parseDouble(cmd.getString(1).replaceAll("~", ""));

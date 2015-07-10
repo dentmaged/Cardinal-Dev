@@ -1,4 +1,4 @@
-package in.twizmwaz.cardinal.module.modules.classModule;
+package in.twizmwaz.cardinal.module.modules.classes;
 
 import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.chat.ChatConstant;

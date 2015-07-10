@@ -3,7 +3,8 @@ package in.twizmwaz.cardinal.module.modules.chatChannels;
 import in.twizmwaz.cardinal.chat.ChatMessage;
 import in.twizmwaz.cardinal.event.PlayerChangeTeamEvent;
 import in.twizmwaz.cardinal.module.modules.permissions.PermissionModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,9 +13,9 @@ import org.bukkit.permissions.Permission;
 
 public class TeamChannel extends PrivateChannel {
 
-    private final TeamModule team;
+    private final Team team;
 
-    public TeamChannel(TeamModule team, PermissionModule permissionModule) {
+    public TeamChannel(Team team, PermissionModule permissionModule) {
         super(new Permission("cardinal." + team.getId()), permissionModule);
         this.team = team;
     }
@@ -45,7 +46,7 @@ public class TeamChannel extends PrivateChannel {
         else removeMember(event.getPlayer());
     }
 
-    public TeamModule getTeam() {
+    public Team getTeam() {
         return team;
     }
 }

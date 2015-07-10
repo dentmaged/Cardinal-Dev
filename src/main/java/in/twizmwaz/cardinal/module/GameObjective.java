@@ -1,11 +1,11 @@
 package in.twizmwaz.cardinal.module;
 
 import in.twizmwaz.cardinal.module.modules.scoreboard.GameObjectiveScoreboardHandler;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 
 public interface GameObjective extends Module {
 
-    public TeamModule getTeam();
+    public Team getTeam();
 
     public String getName();
 

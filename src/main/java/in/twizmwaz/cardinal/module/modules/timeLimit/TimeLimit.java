@@ -6,25 +6,26 @@ import in.twizmwaz.cardinal.module.Module;
 import in.twizmwaz.cardinal.module.modules.cores.CoreObjective;
 import in.twizmwaz.cardinal.module.modules.destroyable.DestroyableObjective;
 import in.twizmwaz.cardinal.module.modules.score.ScoreModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.module.modules.wools.WoolObjective;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.event.HandlerList;
 
 public class TimeLimit implements Module {
 
     private int time;
     private Result result;
-    private TeamModule team;
+    private Team team;
 
-    protected TimeLimit(int time, Result result, TeamModule team) {
+    protected TimeLimit(int time, Result result, Team team) {
         this.time = time;
         this.result = result;
         this.team = team;
     }
 
-    public static TeamModule getMatchWinner() {
-        TeamModule winner = null;
+    public static Team getMatchWinner() {
+        Team winner = null;
         TimeLimit timeLimit = GameHandler.getGameHandler().getMatch().getModules().getModule(TimeLimit.class);
         if (timeLimit != null) {
             if (timeLimit.getResult().equals(Result.TEAM)) {
@@ -34,7 +35,7 @@ public class TimeLimit implements Module {
                 int touched = Integer.MIN_VALUE;
                 int touchedPoints = Integer.MIN_VALUE;
                 double proximity = Double.POSITIVE_INFINITY;
-                for (TeamModule team : TeamUtils.getTeams()) {
+                for (Team team : TeamUtils.getTeams()) {
                     if (!team.isObserver()) {
                         int teamCompleted = 0;
                         int teamTouched = 0;
@@ -106,7 +107,7 @@ public class TimeLimit implements Module {
                 // Winner stays null
             } else if (timeLimit.getResult().equals(Result.MOST_PLAYERS)) {
                 int players = Integer.MIN_VALUE;
-                for (TeamModule team : TeamUtils.getTeams()) {
+                for (Team team : TeamUtils.getTeams()) {
                     if (!team.isObserver()) {
                         if (team.size() > players) {
                             winner = team;
@@ -159,11 +160,11 @@ public class TimeLimit implements Module {
         this.result = result;
     }
 
-    public TeamModule getTeam() {
+    public Team getTeam() {
         return team;
     }
 
-    public void setTeam(TeamModule team) {
+    public void setTeam(Team team) {
         this.team = team;
     }
 

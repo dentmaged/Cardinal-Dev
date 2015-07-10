@@ -9,13 +9,14 @@ import in.twizmwaz.cardinal.event.PlayerChangeTeamEvent;
 import in.twizmwaz.cardinal.match.Match;
 import in.twizmwaz.cardinal.match.MatchState;
 import in.twizmwaz.cardinal.module.Module;
-import in.twizmwaz.cardinal.module.modules.classModule.ClassModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.module.modules.classes.ClassModule;
 import in.twizmwaz.cardinal.module.modules.tutorial.Tutorial;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.Contributor;
 import in.twizmwaz.cardinal.util.ItemUtils;
 import in.twizmwaz.cardinal.util.PlayerUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -202,7 +203,7 @@ public class TeamManagerModule implements Module {
     }
 
     private void removePlayer(Player player) {
-        for (TeamModule team : match.getModules().getModules(TeamModule.class)) {
+        for (Team team : match.getModules().getModules(Team.class)) {
             if (team.contains(player)) {
                 team.remove(player);
             }

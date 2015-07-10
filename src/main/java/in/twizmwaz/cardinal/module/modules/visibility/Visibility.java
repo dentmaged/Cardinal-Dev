@@ -7,9 +7,10 @@ import in.twizmwaz.cardinal.event.PlayerVisibilityChangeEvent;
 import in.twizmwaz.cardinal.match.Match;
 import in.twizmwaz.cardinal.match.MatchState;
 import in.twizmwaz.cardinal.module.Module;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.settings.Settings;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,7 +36,7 @@ public class Visibility implements Module {
         }
     }
 
-    private void resetVisibility(Player viewer, Player toSee, TeamModule newTeam) {
+    private void resetVisibility(Player viewer, Player toSee, Team newTeam) {
         try {
             if (match.getState().equals(MatchState.PLAYING)) {
                 if (TeamUtils.getTeamByPlayer(viewer).isObserver()) {

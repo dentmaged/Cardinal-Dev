@@ -3,8 +3,9 @@ package in.twizmwaz.cardinal.module.modules.filter.type;
 import in.twizmwaz.cardinal.module.modules.filter.FilterModule;
 import in.twizmwaz.cardinal.module.modules.filter.FilterState;
 import in.twizmwaz.cardinal.module.modules.filter.parsers.TeamFilterParser;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.entity.Player;
 
 import static in.twizmwaz.cardinal.module.modules.filter.FilterState.ABSTAIN;
@@ -13,7 +14,7 @@ import static in.twizmwaz.cardinal.module.modules.filter.FilterState.DENY;
 
 public class TeamFilter extends FilterModule {
 
-    private final TeamModule team;
+    private final Team team;
 
     public TeamFilter(final TeamFilterParser parser) {
         super(parser.getName(), parser.getParent());

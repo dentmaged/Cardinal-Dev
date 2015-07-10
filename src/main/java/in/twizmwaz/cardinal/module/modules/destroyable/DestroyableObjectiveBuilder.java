@@ -8,9 +8,10 @@ import in.twizmwaz.cardinal.module.ModuleLoadTime;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModule;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.regions.type.combinations.UnionRegion;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.NumUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Material;
 import org.jdom2.Element;
 
@@ -25,7 +26,7 @@ public class DestroyableObjectiveBuilder implements ModuleBuilder {
         ModuleCollection result = new ModuleCollection();
         for (Element element : match.getDocument().getRootElement().getChildren("destroyables")) {
             for (Element subElement : element.getChildren("destroyable")) {
-                TeamModule owner;
+                Team owner;
                 try {
                     owner = TeamUtils.getTeamById(subElement.getAttributeValue("owner"));
                 } catch (NullPointerException e) {
@@ -130,7 +131,7 @@ public class DestroyableObjectiveBuilder implements ModuleBuilder {
             }
             for (Element child : element.getChildren("destroyables")) {
                 for (Element subChild : child.getChildren("destroyable")) {
-                    TeamModule owner;
+                    Team owner;
                     try {
                         owner = TeamUtils.getTeamById(subChild.getAttributeValue("owner"));
                     } catch (NullPointerException e) {

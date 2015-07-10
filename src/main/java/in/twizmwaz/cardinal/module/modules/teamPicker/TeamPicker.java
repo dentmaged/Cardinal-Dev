@@ -4,11 +4,12 @@ import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.chat.ChatConstant;
 import in.twizmwaz.cardinal.chat.LocalizedChatMessage;
 import in.twizmwaz.cardinal.module.Module;
-import in.twizmwaz.cardinal.module.modules.classModule.ClassModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.module.modules.classes.ClassModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.ItemUtils;
 import in.twizmwaz.cardinal.util.MiscUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -30,6 +31,7 @@ import java.util.Arrays;
 public class TeamPicker implements Module {
 
     protected TeamPicker() {
+        
     }
 
     @Override
@@ -37,16 +39,15 @@ public class TeamPicker implements Module {
         HandlerList.unregisterAll(this);
     }
 
-
     public Inventory getTeamPicker(Player player) {
-        int size = ((GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class).size() / 9) + 1) * 9;
+        int size = ((GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class).size() / 9) + 1) * 9;
         int classesSize = ((GameHandler.getGameHandler().getMatch().getModules().getModules(ClassModule.class).size() + 8) / 9) * 9;
         Inventory picker = Bukkit.createInventory(null, size + classesSize, ChatColor.DARK_RED + new LocalizedChatMessage(ChatConstant.UI_TEAM_PICK).getMessage(player.getLocale()));
         int item = 0;
 
         int maxPlayers = 0;
         int totalPlayers = 0;
-        for (TeamModule team : GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class)) {
+        for (Team team : GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class)) {
             if (!team.isObserver()) {
                 maxPlayers += team.getMax();
                 totalPlayers += team.size();
@@ -55,7 +56,7 @@ public class TeamPicker implements Module {
         ItemStack autoJoin = ItemUtils.createItem(Material.CHAINMAIL_HELMET, 1, (short) 0, ChatColor.GRAY + "" + ChatColor.BOLD + new LocalizedChatMessage(ChatConstant.UI_TEAM_JOIN_AUTO).getMessage(player.getLocale()), Arrays.asList((totalPlayers >= maxPlayers ? ChatColor.RED + "" : ChatColor.GREEN + "") + totalPlayers + ChatColor.GOLD + " / " + ChatColor.RED + "" + maxPlayers, ChatColor.AQUA + new LocalizedChatMessage(ChatConstant.UI_TEAM_JOIN_AUTO_LORE).getMessage(player.getLocale())));
         picker.setItem(item, autoJoin);
         item++;
-        for (TeamModule team : GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class)) {
+        for (Team team : GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class)) {
             if (!team.isObserver()) {
                 ItemStack teamStack = ItemUtils.createLeatherArmor(Material.LEATHER_HELMET, 1, team.getColor() + "" + ChatColor.BOLD + team.getName(), Arrays.asList((team.size() >= team.getMax() ? ChatColor.RED + "" : ChatColor.GREEN + "") + team.size() + ChatColor.GOLD + " / " + ChatColor.RED + "" + team.getMax(), ChatColor.GREEN + new LocalizedChatMessage(ChatConstant.UI_TEAM_CAN_PICK).getMessage(player.getLocale())), MiscUtils.convertChatColorToColor(team.getColor()));
                 picker.setItem(item, teamStack);

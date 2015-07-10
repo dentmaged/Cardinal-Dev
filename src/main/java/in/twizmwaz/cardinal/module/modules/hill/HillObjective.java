@@ -8,7 +8,8 @@ import in.twizmwaz.cardinal.module.modules.matchTimer.MatchTimer;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModule;
 import in.twizmwaz.cardinal.module.modules.score.ScoreModule;
 import in.twizmwaz.cardinal.module.modules.scoreboard.GameObjectiveScoreboardHandler;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,13 +31,13 @@ public class HillObjective implements TaskedModule, GameObjective {
     private final boolean showProgress, neutralState, incremental, permanent, show;
     private final RegionModule capture, progress, captured;
     private final Set<Player> capturingPlayers;
-    private TeamModule team, capturingTeam;
+    private Team team, capturingTeam;
     private double controlTime;
     private GameObjectiveScoreboardHandler scoreboardHandler;
     private int seconds = 1;
     private int tempPoints;
 
-    protected HillObjective(final TeamModule team, final String name, final String id, final int captureTime, final int points, final double pointsGrowth, final CaptureRule captureRule, final double timeMultiplier, final boolean showProgress, final boolean neutralState, final boolean incremental, final boolean permanent, final boolean show, final RegionModule capture, final RegionModule progress, final RegionModule captured) {
+    protected HillObjective(final Team team, final String name, final String id, final int captureTime, final int points, final double pointsGrowth, final CaptureRule captureRule, final double timeMultiplier, final boolean showProgress, final boolean neutralState, final boolean incremental, final boolean permanent, final boolean show, final RegionModule capture, final RegionModule progress, final RegionModule captured) {
         this.team = team;
         this.name = name;
         this.id = id;
@@ -86,7 +87,7 @@ public class HillObjective implements TaskedModule, GameObjective {
     }
 
     @Override
-    public TeamModule getTeam() {
+    public Team getTeam() {
         return this.team;
     }
 
@@ -142,7 +143,7 @@ public class HillObjective implements TaskedModule, GameObjective {
         return showProgress;
     }
 
-    public TeamModule getCapturingTeam() {
+    public Team getCapturingTeam() {
         return capturingTeam;
     }
 

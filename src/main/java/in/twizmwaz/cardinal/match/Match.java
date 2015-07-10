@@ -7,9 +7,10 @@ import in.twizmwaz.cardinal.module.Module;
 import in.twizmwaz.cardinal.module.ModuleCollection;
 import in.twizmwaz.cardinal.module.ModuleLoadTime;
 import in.twizmwaz.cardinal.module.modules.startTimer.StartTimer;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.rotation.LoadedMap;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.DomUtils;
+
 import org.bukkit.Bukkit;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
@@ -92,7 +93,7 @@ public class Match {
         }
     }
 
-    public void end(TeamModule team) {
+    public void end(Team team) {
         if (getState() == MatchState.PLAYING) {
             state = MatchState.ENDED;
             Bukkit.getServer().getPluginManager().callEvent(new MatchEndEvent(team));

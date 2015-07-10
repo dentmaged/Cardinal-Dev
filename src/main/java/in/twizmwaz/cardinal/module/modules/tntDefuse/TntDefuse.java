@@ -4,10 +4,11 @@ import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.module.Module;
 import in.twizmwaz.cardinal.module.modules.chatChannels.AdminChannel;
 import in.twizmwaz.cardinal.module.modules.chatChannels.ChatChannelModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.module.modules.tntTracker.TntTracker;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.ChatUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,7 +37,7 @@ public class TntDefuse implements Module {
         if (event.getLeftClicked() instanceof TNTPrimed) {
             if (TntTracker.getWhoPlaced(event.getLeftClicked()) != null) {
                 UUID player = TntTracker.getWhoPlaced(event.getLeftClicked());
-                TeamModule playerTeam = TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player));
+                Team playerTeam = TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player));
                 if (Bukkit.getOfflinePlayer(player).isOnline()) {
                     if (TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player)) == TeamUtils.getTeamByPlayer(event.getPlayer()) && TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player)) != null && !TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player)).isObserver()) {
                         if (!event.getLeftClicked().getLocation().getBlock().isLiquid()) {
@@ -65,7 +66,7 @@ public class TntDefuse implements Module {
         if (event.getRightClicked() instanceof TNTPrimed && event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getType().equals(Material.SHEARS)) {
             if (TntTracker.getWhoPlaced(event.getRightClicked()) != null) {
                 UUID player = TntTracker.getWhoPlaced(event.getRightClicked());
-                TeamModule playerTeam = TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player));
+                Team playerTeam = TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player));
                 if (Bukkit.getOfflinePlayer(player).isOnline()) {
                     if (event.getPlayer().hasPermission("tnt.defuse") || TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player)) == TeamUtils.getTeamByPlayer(event.getPlayer())) {
                         if (!event.getRightClicked().getLocation().getBlock().isLiquid()) {

@@ -5,9 +5,10 @@ import in.twizmwaz.cardinal.match.Match;
 import in.twizmwaz.cardinal.module.GameObjective;
 import in.twizmwaz.cardinal.module.ModuleBuilder;
 import in.twizmwaz.cardinal.module.ModuleCollection;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.StringUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.jdom2.Element;
 
 public class TimeLimitBuilder implements ModuleBuilder {
@@ -17,7 +18,7 @@ public class TimeLimitBuilder implements ModuleBuilder {
         ModuleCollection<TimeLimit> results = new ModuleCollection<>();
         int timeLimit = 0;
         TimeLimit.Result result = null;
-        TeamModule team = null;
+        Team team = null;
         for (Element time : match.getDocument().getRootElement().getChildren("time")) {
             timeLimit = StringUtils.timeStringToSeconds(time.getText());
             result = TimeLimit.Result.TIE;

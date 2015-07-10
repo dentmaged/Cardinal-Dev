@@ -7,11 +7,12 @@ import in.twizmwaz.cardinal.event.MatchEndEvent;
 import in.twizmwaz.cardinal.event.SnowflakeChangeEvent;
 import in.twizmwaz.cardinal.module.GameObjective;
 import in.twizmwaz.cardinal.module.Module;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.module.modules.wools.WoolObjective;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.MiscUtils;
 import in.twizmwaz.cardinal.util.NumUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -47,7 +48,7 @@ public class Snowflakes implements Module {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         if (!event.isCancelled() && TeamUtils.getTeamByPlayer(event.getPlayer()) != null && event.getItemDrop().getItemStack().getType().equals(Material.WOOL)) {
-            for (TeamModule team : TeamUtils.getTeams()) {
+            for (Team team : TeamUtils.getTeams()) {
                 if (!team.isObserver() && TeamUtils.getTeamByPlayer(event.getPlayer()) != team) {
                     for (GameObjective obj : TeamUtils.getShownObjectives(team)) {
                         if (obj instanceof WoolObjective && event.getItemDrop().getItemStack().getData().getData() == ((WoolObjective) obj).getColor().getData()) {
@@ -71,7 +72,7 @@ public class Snowflakes implements Module {
                 if (player != null && TeamUtils.getTeamByPlayer(player) != null) {
                     for (Item item : items.get(player)) {
                         if (item.equals(event.getEntity())) {
-                            for (TeamModule team : TeamUtils.getTeams()) {
+                            for (Team team : TeamUtils.getTeams()) {
                                 if (!team.isObserver() && TeamUtils.getTeamByPlayer(player) != team) {
                                     for (GameObjective obj : TeamUtils.getShownObjectives(team)) {
                                         if (obj instanceof WoolObjective && item.getItemStack().getData().getData() == ((WoolObjective) obj).getColor().getData() && (!destroyed.containsKey(player) || !destroyed.get(player).contains(((WoolObjective) obj).getColor()))) {

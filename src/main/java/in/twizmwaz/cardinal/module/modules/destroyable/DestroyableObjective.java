@@ -12,13 +12,14 @@ import in.twizmwaz.cardinal.module.GameObjective;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModule;
 import in.twizmwaz.cardinal.module.modules.scoreboard.GameObjectiveScoreboardHandler;
 import in.twizmwaz.cardinal.module.modules.snowflakes.Snowflakes;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.module.modules.timeLimit.TimeLimit;
 import in.twizmwaz.cardinal.module.modules.tntTracker.TntTracker;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.ChatUtils;
 import in.twizmwaz.cardinal.util.FireworkUtil;
 import in.twizmwaz.cardinal.util.MiscUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -43,7 +44,7 @@ import java.util.UUID;
 
 public class DestroyableObjective implements GameObjective {
 
-    private final TeamModule team;
+    private final Team team;
     private final String name;
     private final String id;
     private final RegionModule region;
@@ -67,7 +68,7 @@ public class DestroyableObjective implements GameObjective {
 
     private GameObjectiveScoreboardHandler scoreboardHandler;
 
-    protected DestroyableObjective(final TeamModule team, final String name, final String id, final RegionModule region, List<Material> types, List<Integer> damageValues, final double required, final boolean show, boolean changesModes, boolean showPercent, boolean repairable) {
+    protected DestroyableObjective(final Team team, final String name, final String id, final RegionModule region, List<Material> types, List<Integer> damageValues, final double required, final boolean show, boolean changesModes, boolean showPercent, boolean repairable) {
         this.team = team;
         this.name = name;
         this.id = id;
@@ -94,7 +95,7 @@ public class DestroyableObjective implements GameObjective {
     }
 
     @Override
-    public TeamModule getTeam() {
+    public Team getTeam() {
         return this.team;
     }
 
@@ -141,12 +142,12 @@ public class DestroyableObjective implements GameObjective {
                     boolean touchMessage = false;
                     if (!playersTouched.contains(event.getPlayer().getUniqueId())) {
                         playersTouched.add(event.getPlayer().getUniqueId());
-                        TeamModule teamModule = TeamUtils.getTeamByPlayer(event.getPlayer());
+                        Team teamModule = TeamUtils.getTeamByPlayer(event.getPlayer());
                         if (this.show && !this.completed) {
-                            TeamUtils.getTeamChannel(teamModule).sendLocalizedMessage(new LocalizedChatMessage(ChatConstant.UI_OBJECTIVE_DAMAGED, teamModule.getColor() + event.getPlayer().getName() + ChatColor.GRAY, ChatColor.AQUA + name));
+                            TeamUtils.getTeamChannel(teamModule).sendLocalizedMessage(new LocalizedChatMessage(ChatConstant.UI_OBJECTIVE_DAMAGED, event.getPlayer().getDisplayName() + ChatColor.GRAY, ChatColor.AQUA + name));
                             for (Player player : Bukkit.getOnlinePlayers()) {
                                 if (TeamUtils.getTeamByPlayer(player) != null && TeamUtils.getTeamByPlayer(player).isObserver()) {
-                                    player.sendMessage(new LocalizedChatMessage(ChatConstant.UI_OBJECTIVE_DAMAGED_FOR, teamModule.getColor() + event.getPlayer().getName() + ChatColor.GRAY, ChatColor.AQUA + name + ChatColor.GRAY, teamModule.getCompleteName() + ChatColor.GRAY).getMessage(player.getLocale()));
+                                    player.sendMessage(new LocalizedChatMessage(ChatConstant.UI_OBJECTIVE_DAMAGED_FOR, event.getPlayer().getDisplayName() + ChatColor.GRAY, ChatColor.AQUA + name + ChatColor.GRAY, teamModule.getCompleteName() + ChatColor.GRAY).getMessage(player.getLocale()));
                                 }
                             }
                         }
@@ -201,12 +202,12 @@ public class DestroyableObjective implements GameObjective {
                         } else {
                             if (!playersTouched.contains(player)) {
                                 playersTouched.add(player);
-                                TeamModule teamModule = TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player));
+                                Team teamModule = TeamUtils.getTeamByPlayer(Bukkit.getPlayer(player));
                                 if (this.show && !this.completed) {
-                                    TeamUtils.getTeamChannel(teamModule).sendLocalizedMessage(new LocalizedChatMessage(ChatConstant.UI_OBJECTIVE_DAMAGED, teamModule.getColor() + Bukkit.getPlayer(player).getName() + ChatColor.GRAY, ChatColor.AQUA + name + ChatColor.GRAY));
+                                    TeamUtils.getTeamChannel(teamModule).sendLocalizedMessage(new LocalizedChatMessage(ChatConstant.UI_OBJECTIVE_DAMAGED, teamModule.getColor() + Bukkit.getPlayer(player).getDisplayName() + ChatColor.GRAY, ChatColor.AQUA + name + ChatColor.GRAY));
                                     for (Player player1 : Bukkit.getOnlinePlayers()) {
                                         if (TeamUtils.getTeamByPlayer(player1) != null && TeamUtils.getTeamByPlayer(player1).isObserver()) {
-                                            player1.sendMessage(new LocalizedChatMessage(ChatConstant.UI_OBJECTIVE_DAMAGED_FOR, teamModule.getColor() + Bukkit.getPlayer(player).getName() + ChatColor.GRAY, ChatColor.AQUA + name + ChatColor.GRAY, teamModule.getCompleteName() + ChatColor.GRAY).getMessage(player1.getLocale()));
+                                            player1.sendMessage(new LocalizedChatMessage(ChatConstant.UI_OBJECTIVE_DAMAGED_FOR, Bukkit.getPlayer(player).getDisplayName() + ChatColor.GRAY, ChatColor.AQUA + name + ChatColor.GRAY, teamModule.getCompleteName() + ChatColor.GRAY).getMessage(player1.getLocale()));
                                         }
                                     }
                                     touchMessage = true;
@@ -342,7 +343,7 @@ public class DestroyableObjective implements GameObjective {
         List<String> toCombine = new ArrayList<>();
         for (UUID player : MiscUtils.getSortedHashMapKeyset(playersCompleted)) {
             if (getPercentFromAmount(playersCompleted.get(player)) > (100 / 3)) {
-                toCombine.add(TeamUtils.getTeamColorByPlayer(Bukkit.getPlayer(player)) + Bukkit.getPlayer(player).getName() + ChatColor.GRAY + " (" + getPercentFromAmount(playersCompleted.get(player)) + "%)");
+                toCombine.add(TeamUtils.getTeamColorByPlayer(Bukkit.getPlayer(player)) + Bukkit.getPlayer(player).getDisplayName() + ChatColor.GRAY + " (" + getPercentFromAmount(playersCompleted.get(player)) + "%)");
             }
         }
         if (toCombine.size() == 0) {
@@ -394,4 +395,5 @@ public class DestroyableObjective implements GameObjective {
     public double getProximity() {
         return proximity;
     }
+
 }

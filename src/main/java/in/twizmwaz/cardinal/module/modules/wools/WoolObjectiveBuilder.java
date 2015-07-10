@@ -7,10 +7,11 @@ import in.twizmwaz.cardinal.module.ModuleCollection;
 import in.twizmwaz.cardinal.module.ModuleLoadTime;
 import in.twizmwaz.cardinal.module.modules.regions.RegionModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.regions.type.BlockRegion;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.NumUtils;
 import in.twizmwaz.cardinal.util.ParseUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.DyeColor;
 import org.bukkit.util.Vector;
 import org.jdom2.Element;
@@ -23,7 +24,7 @@ public class WoolObjectiveBuilder implements ModuleBuilder {
         ModuleCollection<WoolObjective> result = new ModuleCollection<WoolObjective>();
         for (Element element : match.getDocument().getRootElement().getChildren("wools")) {
             for (Element subElement : element.getChildren("wool")) {
-                TeamModule team;
+                Team team;
                 try {
                     team = TeamUtils.getTeamById(element.getAttributeValue("team"));
                 } catch (NullPointerException e) {
@@ -61,7 +62,7 @@ public class WoolObjectiveBuilder implements ModuleBuilder {
             }
             for (Element child : element.getChildren("wools")) {
                 for (Element subChild : child.getChildren("wool")) {
-                    TeamModule team;
+                    Team team;
                     try {
                         team = TeamUtils.getTeamById((child.getAttributeValue("team")));
                     } catch (NullPointerException e) {

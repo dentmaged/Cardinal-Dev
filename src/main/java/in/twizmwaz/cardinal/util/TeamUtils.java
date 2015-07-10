@@ -6,18 +6,19 @@ import in.twizmwaz.cardinal.module.GameObjective;
 import in.twizmwaz.cardinal.module.ModuleCollection;
 import in.twizmwaz.cardinal.module.modules.chatChannels.TeamChannel;
 import in.twizmwaz.cardinal.module.modules.hill.HillObjective;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.module.modules.wools.WoolObjective;
+import in.twizmwaz.cardinal.teams.Team;
+
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public class TeamUtils {
 
-    public static TeamModule getTeamWithFewestPlayers(Match match) {
-        TeamModule result = null;
+    public static Team getTeamWithFewestPlayers(Match match) {
+        Team result = null;
         double percent = Double.POSITIVE_INFINITY;
-        for (TeamModule team : getTeams()) {
+        for (Team team : getTeams()) {
             if (!team.isObserver() && (team.size() / (double) team.getMax()) < percent) {
                 result = team;
                 percent = team.size() / (double) team.getMax();
@@ -26,9 +27,9 @@ public class TeamUtils {
         return result;
     }
 
-    public static TeamModule getTeamByName(String name) {
+    public static Team getTeamByName(String name) {
         if (name == null) return null;
-        for (TeamModule team : GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class)) {
+        for (Team team : GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class)) {
             if (team.getName().replaceAll(" ", "").toLowerCase().startsWith(name.replaceAll(" ", "").toLowerCase())) {
                 return team;
             }
@@ -36,23 +37,23 @@ public class TeamUtils {
         return null;
     }
 
-    public static TeamModule getTeamById(String id) {
-        for (TeamModule team : GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class)) {
+    public static Team getTeamById(String id) {
+        for (Team team : GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class)) {
             if (team.getId().replaceAll(" ", "").equalsIgnoreCase(id.replaceAll(" ", ""))) {
                 return team;
             }
         }
-        for (TeamModule team : GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class)) {
+        for (Team team : GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class)) {
             if (team.getId().replaceAll(" ", "").toLowerCase().startsWith(id.replaceAll(" ", "").toLowerCase())) {
                 return team;
             }
         }
-        for (TeamModule team : GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class)) {
+        for (Team team : GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class)) {
             if (team.getId().replaceAll(" ", "-").equalsIgnoreCase(id.replaceAll(" ", "-"))) {
                 return team;
             }
         }
-        for (TeamModule team : GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class)) {
+        for (Team team : GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class)) {
             if (team.getId().replaceAll(" ", "-").toLowerCase().startsWith(id.replaceAll(" ", "-").toLowerCase())) {
                 return team;
             }
@@ -60,8 +61,8 @@ public class TeamUtils {
         return null;
     }
 
-    public static TeamModule getTeamByPlayer(Player player) {
-        for (TeamModule team : GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class)) {
+    public static Team getTeamByPlayer(Player player) {
+        for (Team team : GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class)) {
             if (team.contains(player)) {
                 return team;
             }
@@ -69,11 +70,11 @@ public class TeamUtils {
         return null;
     }
 
-    public static ModuleCollection<TeamModule> getTeams() {
-        return GameHandler.getGameHandler().getMatch().getModules().getModules(TeamModule.class);
+    public static ModuleCollection<Team> getTeams() {
+        return GameHandler.getGameHandler().getMatch().getModules().getModules(Team.class);
     }
 
-    public static ModuleCollection<GameObjective> getObjectives(TeamModule team) {
+    public static ModuleCollection<GameObjective> getObjectives(Team team) {
         ModuleCollection<GameObjective> objectives = new ModuleCollection<>();
         for (GameObjective objective : GameHandler.getGameHandler().getMatch().getModules().getModules(GameObjective.class)) {
             if (objective instanceof WoolObjective) {
@@ -87,7 +88,7 @@ public class TeamUtils {
         return objectives;
     }
 
-    public static ModuleCollection<GameObjective> getShownObjectives(TeamModule team) {
+    public static ModuleCollection<GameObjective> getShownObjectives(Team team) {
         ModuleCollection<GameObjective> objectives = new ModuleCollection<>();
         for (GameObjective objective : getObjectives(team)) {
             if (objective.showOnScoreboard()) {
@@ -97,7 +98,7 @@ public class TeamUtils {
         return objectives;
     }
 
-    public static TeamChannel getTeamChannel(TeamModule team) {
+    public static TeamChannel getTeamChannel(Team team) {
         for (TeamChannel channel : GameHandler.getGameHandler().getMatch().getModules().getModules(TeamChannel.class)) {
             if (channel.getTeam() == team) return channel;
         }
@@ -106,21 +107,21 @@ public class TeamUtils {
 
     public static ChatColor getTeamColorByPlayer(OfflinePlayer player) {
         if (player.isOnline()) {
-            TeamModule team = getTeamByPlayer(player.getPlayer());
+            Team team = getTeamByPlayer(player.getPlayer());
             if (team != null) return team.getColor();
             else return ChatColor.DARK_AQUA;
         } else return ChatColor.DARK_AQUA;
     }
 
     public static boolean teamsReady() {
-        for (TeamModule team : getTeams()) {
+        for (Team team : getTeams()) {
             if (!team.isReady()) return false;
         }
         return true;
     }
 
     public static boolean teamsNoObsReady() {
-        for (TeamModule team : getTeams()) {
+        for (Team team : getTeams()) {
             if (!team.isReady() && !team.isObserver()) return false;
         }
         return true;

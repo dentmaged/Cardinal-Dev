@@ -4,15 +4,17 @@ import com.sk89q.minecraft.util.commands.Command;
 import com.sk89q.minecraft.util.commands.CommandContext;
 import com.sk89q.minecraft.util.commands.CommandException;
 import com.sk89q.minecraft.util.commands.CommandPermissions;
+
 import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.chat.ChatConstant;
 import in.twizmwaz.cardinal.chat.LocalizedChatMessage;
 import in.twizmwaz.cardinal.match.MatchState;
 import in.twizmwaz.cardinal.module.modules.cycleTimer.CycleTimerModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.rotation.LoadedMap;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.ChatUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -23,7 +25,7 @@ public class CycleCommand {
     public static void cycle(final CommandContext cmd, CommandSender sender) throws CommandException {
         if (GameHandler.getGameHandler().getMatch().isRunning()) {
             if (cmd.hasFlag('f')) {
-                TeamModule team = TeamUtils.getTeamByName(cmd.getFlag('f'));
+                Team team = TeamUtils.getTeamByName(cmd.getFlag('f'));
                 GameHandler.getGameHandler().getMatch().end(team);
             } else {
                 throw new CommandException(new LocalizedChatMessage(ChatConstant.ERROR_CYCLE_DURING_MATCH).getMessage(ChatUtils.getLocale(sender)));
@@ -62,7 +64,7 @@ public class CycleCommand {
     public static void recycle(final CommandContext cmd, CommandSender sender) throws CommandException {
         if (GameHandler.getGameHandler().getMatch().isRunning()) {
             if (cmd.hasFlag('f')) {
-                TeamModule team = TeamUtils.getTeamByName(cmd.getFlag('f'));
+                Team team = TeamUtils.getTeamByName(cmd.getFlag('f'));
                 GameHandler.getGameHandler().getMatch().end(team);
             } else {
                 throw new CommandException(new LocalizedChatMessage(ChatConstant.ERROR_CYCLE_DURING_MATCH).getMessage(ChatUtils.getLocale(sender)));

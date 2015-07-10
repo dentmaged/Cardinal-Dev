@@ -4,18 +4,19 @@ import in.twizmwaz.cardinal.module.GameObjective;
 import in.twizmwaz.cardinal.module.modules.cores.CoreObjective;
 import in.twizmwaz.cardinal.module.modules.destroyable.DestroyableObjective;
 import in.twizmwaz.cardinal.module.modules.hill.HillObjective;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.module.modules.wools.WoolObjective;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.MiscUtils;
 import in.twizmwaz.cardinal.util.NumUtils;
 import in.twizmwaz.cardinal.util.StringUtils;
+
 import org.bukkit.ChatColor;
 
 public class GameObjectiveScoreboardHandler {
 
     private static int num = 1;
     private GameObjective objective;
-    private TeamModule team;
+    private Team team;
     private int number;
 
     public GameObjectiveScoreboardHandler(GameObjective objective) {
@@ -29,7 +30,7 @@ public class GameObjectiveScoreboardHandler {
         return number;
     }
 
-    public String getPrefix(TeamModule team) {
+    public String getPrefix(Team team) {
         String prefix;
         if (objective instanceof WoolObjective) {
             WoolObjective wool = (WoolObjective) objective;

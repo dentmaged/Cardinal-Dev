@@ -5,14 +5,16 @@ import com.sk89q.minecraft.util.commands.CommandContext;
 import com.sk89q.minecraft.util.commands.CommandException;
 import com.sk89q.minecraft.util.commands.CommandPermissions;
 import com.sk89q.minecraft.util.commands.NestedCommand;
+
 import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.chat.ChatConstant;
 import in.twizmwaz.cardinal.chat.LocalizedChatMessage;
 import in.twizmwaz.cardinal.chat.UnlocalizedChatMessage;
 import in.twizmwaz.cardinal.event.TeamNameChangeEvent;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.ChatUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -30,7 +32,7 @@ public class TeamCommands {
         if (Bukkit.getPlayer(cmd.getString(0)) != null) {
             String msg = cmd.getJoinedStrings(1);
             if (TeamUtils.getTeamByName(msg) != null) {
-                TeamModule team = TeamUtils.getTeamByName(msg);
+                Team team = TeamUtils.getTeamByName(msg);
                 if (!team.contains(Bukkit.getPlayer(cmd.getString(0)))) {
                     team.add(Bukkit.getPlayer(cmd.getString(0)), true, false);
                     sender.sendMessage(team.getColor() + Bukkit.getPlayer(cmd.getString(0)).getName() + ChatColor.GRAY + " forced to " + team.getCompleteName());
@@ -47,7 +49,7 @@ public class TeamCommands {
     @Command(aliases = {"alias"}, desc = "Renames a the team specified.", usage = "<team> <name>", min = 2)
     @CommandPermissions("cardinal.team.alias")
     public static void alias(final CommandContext cmd, CommandSender sender) throws CommandException {
-        TeamModule team = TeamUtils.getTeamByName(cmd.getString(0));
+        Team team = TeamUtils.getTeamByName(cmd.getString(0));
         if (team != null) {
             String msg = cmd.getJoinedStrings(1);
             String locale = ChatUtils.getLocale(sender);
@@ -67,14 +69,14 @@ public class TeamCommands {
             if (TeamUtils.getTeamByPlayer(player) != null) {
                 if (!TeamUtils.getTeamByPlayer(player).isObserver()) {
                     playersToShuffle.add(player);
-                    TeamModule observers = TeamUtils.getTeamById("observers");
+                    Team observers = TeamUtils.getTeamById("observers");
                     observers.add(player, true, false);
                 }
             }
         }
         while (playersToShuffle.size() > 0) {
             Player player = playersToShuffle.get(new Random().nextInt(playersToShuffle.size()));
-            TeamModule team = TeamUtils.getTeamWithFewestPlayers(GameHandler.getGameHandler().getMatch());
+            Team team = TeamUtils.getTeamWithFewestPlayers(GameHandler.getGameHandler().getMatch());
             team.add(player, true);
             playersToShuffle.remove(player);
         }
@@ -85,7 +87,7 @@ public class TeamCommands {
     @Command(aliases = {"size"}, desc = "Changes the specified team's size.", usage = "<team> <size>", min = 2)
     @CommandPermissions("cardinal.team.size")
     public static void size(final CommandContext cmd, CommandSender sender) throws CommandException {
-        TeamModule team = TeamUtils.getTeamByName(cmd.getString(0));
+        Team team = TeamUtils.getTeamByName(cmd.getString(0));
         if (team != null) {
             team.setMaxOverfill(Integer.parseInt(cmd.getString(1)));
             team.setMax(Integer.parseInt(cmd.getString(1)));

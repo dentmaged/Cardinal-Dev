@@ -112,6 +112,7 @@ public class Cardinal extends JavaPlugin {
         cmdRegister.register(ProximityCommand.class);
         cmdRegister.register(BroadcastCommands.class);
         cmdRegister.register(NickCommands.class);
+        cmdRegister.register(FreezeCommands.class);
 
         cmdRegister.register(TeamCommands.TeamParentCommand.class);
         cmdRegister.register(WhitelistCommands.WhitelistParentCommand.class);

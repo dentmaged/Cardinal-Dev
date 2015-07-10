@@ -17,12 +17,12 @@ import in.twizmwaz.cardinal.module.modules.cores.CoreObjective;
 import in.twizmwaz.cardinal.module.modules.destroyable.DestroyableObjective;
 import in.twizmwaz.cardinal.module.modules.hill.HillObjective;
 import in.twizmwaz.cardinal.module.modules.score.ScoreModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.module.modules.timeLimit.TimeLimit;
 import in.twizmwaz.cardinal.module.modules.wools.WoolObjective;
 import in.twizmwaz.cardinal.util.ScoreboardUtils;
 import in.twizmwaz.cardinal.util.StringUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -40,17 +40,17 @@ import java.util.List;
 
 public class ScoreboardModule implements Module {
 
-    private TeamModule team;
+    private in.twizmwaz.cardinal.teams.Team team;
     private Scoreboard scoreboard;
 
     private Objective objective;
     private int currentScore, currentHillScore;
     private List<String> used;
 
-    public ScoreboardModule(final TeamModule team) {
+    public ScoreboardModule(final in.twizmwaz.cardinal.teams.Team team) {
         this.team = team;
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        for (TeamModule teams : TeamUtils.getTeams()) {
+        for (in.twizmwaz.cardinal.teams.Team teams : TeamUtils.getTeams()) {
             Team prefixTeam = scoreboard.registerNewTeam(teams.getId());
             prefixTeam.setPrefix(teams.getColor() + "");
             scoreboard.registerNewTeam(teams.getId() + "-t");
@@ -64,7 +64,7 @@ public class ScoreboardModule implements Module {
             }
         }
         if (Blitz.matchIsBlitz()) {
-            for (TeamModule teams : TeamUtils.getTeams()) {
+            for (in.twizmwaz.cardinal.teams.Team teams : TeamUtils.getTeams()) {
                 if (!teams.isObserver()) {
                     scoreboard.registerNewTeam(teams.getId() + "-b");
                 }
@@ -72,19 +72,19 @@ public class ScoreboardModule implements Module {
         }
     }
 
-    public static void add(TeamModule team, Player player) {
+    public static void add(in.twizmwaz.cardinal.teams.Team team, Player player) {
         for (ScoreboardModule scoreboard : GameHandler.getGameHandler().getMatch().getModules().getModules(ScoreboardModule.class)) {
             scoreboard.getScoreboard().getTeam(team.getId()).addPlayer(player);
         }
     }
 
-    public static void remove(TeamModule team, Player player) {
+    public static void remove(in.twizmwaz.cardinal.teams.Team team, Player player) {
         for (ScoreboardModule scoreboard : GameHandler.getGameHandler().getMatch().getModules().getModules(ScoreboardModule.class)) {
             scoreboard.getScoreboard().getTeam(team.getId()).removePlayer(player);
         }
     }
 
-    public TeamModule getTeam() {
+    public in.twizmwaz.cardinal.teams.Team getTeam() {
         return team;
     }
 
@@ -103,21 +103,21 @@ public class ScoreboardModule implements Module {
             if (event.getNewTeam() == this.team) {
                 event.getPlayer().setScoreboard(this.scoreboard);
             }
-            for (TeamModule team : TeamUtils.getTeams()) {
+            for (in.twizmwaz.cardinal.teams.Team team : TeamUtils.getTeams()) {
                 remove(team, event.getPlayer());
             }
             add(event.getNewTeam(), event.getPlayer());
 
             if (Blitz.matchIsBlitz()) {
                 if (event.getOldTeam() != null && !event.getOldTeam().isObserver()) {
-                    TeamModule team = event.getOldTeam();
+                    in.twizmwaz.cardinal.teams.Team team = event.getOldTeam();
                     Team scoreboardTeam = scoreboard.getTeam(team.getId() + "-b");
                     for (String entry : scoreboardTeam.getEntries()) {
                         setScore(scoreboard.getObjective("scoreboard"), entry, team.size());
                     }
                 }
                 if (event.getNewTeam() != null && !event.getNewTeam().isObserver()) {
-                    TeamModule team = event.getNewTeam();
+                    in.twizmwaz.cardinal.teams.Team team = event.getNewTeam();
                     Team scoreboardTeam = scoreboard.getTeam(team.getId() + "-b");
                     for (String entry : scoreboardTeam.getEntries()) {
                         setScore(scoreboard.getObjective("scoreboard"), entry, team.size());
@@ -163,7 +163,7 @@ public class ScoreboardModule implements Module {
     }
 
     public void update() {
-        TeamModule prioritized = team.isObserver() ? TimeLimit.getMatchWinner() : team;
+        in.twizmwaz.cardinal.teams.Team prioritized = team.isObserver() ? TimeLimit.getMatchWinner() : team;
 
         objective = scoreboard.getObjective("scoreboard") == null ? scoreboard.registerNewObjective("scoreboard", "dummy") : scoreboard.getObjective("scoreboard");
         objective.setDisplayName(getDisplayTitle());
@@ -172,7 +172,7 @@ public class ScoreboardModule implements Module {
         used = new ArrayList<>();
 
         if (getCompactSlots() < 16) {
-            for (TeamModule team : TeamUtils.getTeams()) {
+            for (in.twizmwaz.cardinal.teams.Team team : TeamUtils.getTeams()) {
                 if (!team.isObserver() && team != prioritized && TeamUtils.getShownObjectives(team).size() > 0) {
                     if (getSlots() < 16) {
                         for (GameObjective obj : TeamUtils.getShownObjectives(team)) {
@@ -215,7 +215,7 @@ public class ScoreboardModule implements Module {
                 setScore(objective, ChatColor.RED + "---- MAX ----", ScoreModule.max());
             }
             if (Blitz.matchIsBlitz()) {
-                for (TeamModule team : TeamUtils.getTeams()) {
+                for (in.twizmwaz.cardinal.teams.Team team : TeamUtils.getTeams()) {
                     if (!team.isObserver()) {
                         renderTeamBlitz(team);
                     }
@@ -264,7 +264,7 @@ public class ScoreboardModule implements Module {
 
     public int getSlots() {
         int slots = 0;
-        for (TeamModule team : TeamUtils.getTeams()) {
+        for (in.twizmwaz.cardinal.teams.Team team : TeamUtils.getTeams()) {
             if (!team.isObserver() && TeamUtils.getShownObjectives(team).size() > 0) {
                 slots += 2;
                 slots += TeamUtils.getShownObjectives(team).size();
@@ -285,7 +285,7 @@ public class ScoreboardModule implements Module {
 
     public int getCompactSlots() {
         int slots = 0;
-        for (TeamModule team : TeamUtils.getTeams()) {
+        for (in.twizmwaz.cardinal.teams.Team team : TeamUtils.getTeams()) {
             if (!team.isObserver() && TeamUtils.getShownObjectives(team).size() > 0) {
                 slots += 2;
                 if (TeamUtils.getShownObjectives(team).size() > 0) slots++;
@@ -307,7 +307,7 @@ public class ScoreboardModule implements Module {
     public int getObjectiveSlots() {
         int slots = 0;
         if (getSlots() < 16) {
-            for (TeamModule team : TeamUtils.getTeams()) {
+            for (in.twizmwaz.cardinal.teams.Team team : TeamUtils.getTeams()) {
                 if (!team.isObserver() && TeamUtils.getShownObjectives(team).size() > 0) {
                     slots += 2;
                     slots += TeamUtils.getShownObjectives(team).size();
@@ -315,7 +315,7 @@ public class ScoreboardModule implements Module {
             }
             slots--;
         } else if (getCompactSlots() < 16) {
-            for (TeamModule team : TeamUtils.getTeams()) {
+            for (in.twizmwaz.cardinal.teams.Team team : TeamUtils.getTeams()) {
                 if (!team.isObserver() && TeamUtils.getShownObjectives(team).size() > 0) {
                     slots += 2;
                     if (TeamUtils.getShownObjectives(team).size() > 0) slots++;
@@ -359,7 +359,7 @@ public class ScoreboardModule implements Module {
     public Class getSpecificObjective() {
         Class objective = null;
         boolean checkHills = true;
-        for (TeamModule team : TeamUtils.getTeams()) {
+        for (in.twizmwaz.cardinal.teams.Team team : TeamUtils.getTeams()) {
             for (GameObjective obj : TeamUtils.getShownObjectives(team)) {
                 if (objective == null) {
                     objective = obj.getClass();
@@ -457,7 +457,7 @@ public class ScoreboardModule implements Module {
         }
     }
 
-    public void renderTeamTitle(TeamModule teamModule) {
+    public void renderTeamTitle(in.twizmwaz.cardinal.teams.Team teamModule) {
         Team team = scoreboard.getTeam(teamModule.getId() + "-t");
         team.setPrefix(teamModule.getColor() + StringUtils.trimTo(teamModule.getName(), 0, 14));
         team.setSuffix(StringUtils.trimTo(teamModule.getName(), 14, 30));
@@ -476,7 +476,7 @@ public class ScoreboardModule implements Module {
     }
 
     public void renderTeamScore(ScoreModule score) {
-        TeamModule teamModule = score.getTeam();
+        in.twizmwaz.cardinal.teams.Team teamModule = score.getTeam();
         Team team = scoreboard.getTeam(teamModule.getId() + "-s");
         team.setPrefix(teamModule.getColor() + StringUtils.trimTo(teamModule.getName(), 0, 14));
         team.setSuffix(StringUtils.trimTo(teamModule.getName(), 14, 30));
@@ -493,7 +493,7 @@ public class ScoreboardModule implements Module {
         }
     }
 
-    public void renderTeamBlitz(TeamModule teamModule) {
+    public void renderTeamBlitz(in.twizmwaz.cardinal.teams.Team teamModule) {
         Team team = scoreboard.getTeam(teamModule.getId() + "-b");
         team.setPrefix(teamModule.getColor() + StringUtils.trimTo(teamModule.getName(), 0, 14));
         team.setSuffix(StringUtils.trimTo(teamModule.getName(), 14, 30));

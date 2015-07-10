@@ -1,6 +1,7 @@
 package in.twizmwaz.cardinal.event;
 
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
+
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -8,10 +9,10 @@ import org.bukkit.event.HandlerList;
 public class TeamNameChangeEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private TeamModule team;
+    private Team team;
     private boolean cancelled;
 
-    public TeamNameChangeEvent(TeamModule team) {
+    public TeamNameChangeEvent(Team team) {
         this.team = team;
     }
 
@@ -33,7 +34,7 @@ public class TeamNameChangeEvent extends Event implements Cancellable {
         this.cancelled = b;
     }
 
-    public TeamModule getTeam() {
+    public Team getTeam() {
         return team;
     }
 

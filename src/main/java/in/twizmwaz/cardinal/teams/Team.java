@@ -1,4 +1,4 @@
-package in.twizmwaz.cardinal.module.modules.team;
+package in.twizmwaz.cardinal.teams;
 
 import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.chat.ChatConstant;
@@ -17,7 +17,7 @@ import org.bukkit.event.HandlerList;
 
 import java.util.ArrayList;
 
-public class TeamModule<P extends Player> extends ArrayList<Player> implements Module {
+public class Team extends ArrayList<Player> implements Module {
 
     private final Match match;
     private final String id;
@@ -29,7 +29,7 @@ public class TeamModule<P extends Player> extends ArrayList<Player> implements M
     private ChatColor color;
     private boolean ready;
 
-    protected TeamModule(Match match, String name, String id, int max, int maxOverfill, int respawnLimit, ChatColor color, boolean observer) {
+    protected Team(Match match, String name, String id, int max, int maxOverfill, int respawnLimit, ChatColor color, boolean observer) {
         this.match = match;
         this.name = name;
         this.id = id;
@@ -42,8 +42,8 @@ public class TeamModule<P extends Player> extends ArrayList<Player> implements M
     }
 
     public boolean add(Player player, boolean force, boolean message) {
-        TeamModule old = null;
-        for (TeamModule team : match.getModules().getModules(TeamModule.class)) {
+        Team old = null;
+        for (Team team : match.getModules().getModules(Team.class)) {
             if (team.contains(player)) {
                 old = team;
                 break;

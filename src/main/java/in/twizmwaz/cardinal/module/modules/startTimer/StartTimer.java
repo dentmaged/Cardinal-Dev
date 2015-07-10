@@ -9,10 +9,11 @@ import in.twizmwaz.cardinal.match.Match;
 import in.twizmwaz.cardinal.match.MatchState;
 import in.twizmwaz.cardinal.module.TaskedModule;
 import in.twizmwaz.cardinal.module.modules.blitz.Blitz;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.settings.Settings;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.ChatUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -44,7 +45,7 @@ public class StartTimer implements TaskedModule, Cancellable {
                 } else {
                     if (Blitz.matchIsBlitz()) {
                         int count = 0;
-                        for (TeamModule team : TeamUtils.getTeams()) {
+                        for (Team team : TeamUtils.getTeams()) {
                             if (!team.isObserver() && team.size() > 0) {
                                 count++;
                             }

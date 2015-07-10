@@ -1,4 +1,4 @@
-package in.twizmwaz.cardinal.module.modules.team;
+package in.twizmwaz.cardinal.teams;
 
 import in.twizmwaz.cardinal.match.Match;
 import in.twizmwaz.cardinal.module.BuilderData;
@@ -18,7 +18,7 @@ public class TeamModuleBuilder implements ModuleBuilder {
 
     @Override
     public ModuleCollection load(Match match) {
-        ModuleCollection<TeamModule> results = new ModuleCollection<>();
+        ModuleCollection<Team> results = new ModuleCollection<>();
         Document doc = match.getDocument();
         Element teams = doc.getRootElement().getChild("teams");
         List<Element> teamElements = teams.getChildren();
@@ -39,9 +39,9 @@ public class TeamModuleBuilder implements ModuleBuilder {
                 respawnLimit = -1;
             }
             ChatColor color = ParseUtils.parseChatColor(teamNode.getAttribute("color").getValue());
-            results.add(new TeamModule(match, name, id, max, maxOverfill, respawnLimit, color, false));
+            results.add(new Team(match, name, id, max, maxOverfill, respawnLimit, color, false));
         }
-        results.add(new TeamModule(match, "Observers", "observers", Integer.MAX_VALUE, Integer.MAX_VALUE, -1, ChatColor.AQUA, true));
+        results.add(new Team(match, "Observers", "observers", Integer.MAX_VALUE, Integer.MAX_VALUE, -1, ChatColor.AQUA, true));
         return results;
     }
 }

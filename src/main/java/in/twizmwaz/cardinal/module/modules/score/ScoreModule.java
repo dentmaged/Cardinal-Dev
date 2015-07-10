@@ -4,21 +4,22 @@ import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.event.CardinalDeathEvent;
 import in.twizmwaz.cardinal.event.ScoreUpdateEvent;
 import in.twizmwaz.cardinal.module.Module;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 
 public class ScoreModule implements Module {
 
-    private final TeamModule team;
+    private final Team team;
     private final int pointsPerKill;
     private final int pointsPerDeath;
     private final int max;
     private int score;
 
-    public ScoreModule(final TeamModule team, final int pointsPerKill, final int pointsPerDeath, final int max) {
+    public ScoreModule(final Team team, final int pointsPerKill, final int pointsPerDeath, final int max) {
         this.team = team;
         this.score = 0;
         this.pointsPerKill = pointsPerKill;
@@ -90,7 +91,7 @@ public class ScoreModule implements Module {
         return max;
     }
 
-    public TeamModule getTeam() {
+    public Team getTeam() {
         return team;
     }
 

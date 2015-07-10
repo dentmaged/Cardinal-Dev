@@ -10,7 +10,7 @@ import in.twizmwaz.cardinal.module.modules.broadcasts.BroadcastModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.buildHeight.BuildHeightBuilder;
 import in.twizmwaz.cardinal.module.modules.chat.ChatModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.chatChannels.ChatChannelModuleBuilder;
-import in.twizmwaz.cardinal.module.modules.classModule.ClassModuleBuilder;
+import in.twizmwaz.cardinal.module.modules.classes.ClassModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.cores.CoreObjectiveBuilder;
 import in.twizmwaz.cardinal.module.modules.cycleTimer.CycleTimerBuilder;
 import in.twizmwaz.cardinal.module.modules.deathMessages.DeathMessagesBuilder;
@@ -57,9 +57,7 @@ import in.twizmwaz.cardinal.module.modules.snowflakes.SnowflakesBuilder;
 import in.twizmwaz.cardinal.module.modules.sound.SoundModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.spawn.SpawnModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.startTimer.StartTimerBuilder;
-import in.twizmwaz.cardinal.module.modules.stats.StatsBuilder;
 import in.twizmwaz.cardinal.module.modules.tasker.TaskerModuleBuilder;
-import in.twizmwaz.cardinal.module.modules.team.TeamModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.teamManager.TeamManagerModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.teamPicker.TeamPickerBuilder;
 import in.twizmwaz.cardinal.module.modules.timeLimit.TimeLimitBuilder;
@@ -72,10 +70,12 @@ import in.twizmwaz.cardinal.module.modules.toolRepair.ToolRepairBuilder;
 import in.twizmwaz.cardinal.module.modules.tracker.TrackerBuilder;
 import in.twizmwaz.cardinal.module.modules.tutorial.TutorialBuilder;
 import in.twizmwaz.cardinal.module.modules.updateNotification.UpdateNotificationBuilder;
+import in.twizmwaz.cardinal.module.modules.utils.UtilBuilder;
 import in.twizmwaz.cardinal.module.modules.visibility.VisibilityBuilder;
 import in.twizmwaz.cardinal.module.modules.wildcard.WildCardBuilder;
 import in.twizmwaz.cardinal.module.modules.wools.WoolObjectiveBuilder;
 import in.twizmwaz.cardinal.module.modules.worldFreeze.WorldFreezeBuilder;
+import in.twizmwaz.cardinal.teams.TeamModuleBuilder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -151,7 +151,7 @@ public class ModuleFactory {
             SnowflakesBuilder.class,
             SoundModuleBuilder.class,
             StartTimerBuilder.class,
-            StatsBuilder.class,
+            /* StatsBuilder.class, */
             HeaderModuleBuilder.class,
             CycleTimerBuilder.class,
             TimeLimitBuilder.class,
@@ -163,7 +163,8 @@ public class ModuleFactory {
             MatchTranscriptBuilder.class,
             PotionRemoverBuilder.class,
             InvisibleBlockBuilder.class,
-            NickBuilder.class
+            NickBuilder.class,
+            UtilBuilder.class
     };
     private final List<ModuleBuilder> builders;
 

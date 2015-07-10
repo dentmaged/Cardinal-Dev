@@ -1,9 +1,10 @@
 package in.twizmwaz.cardinal.module.modules.filter.type;
 
-import in.twizmwaz.cardinal.module.modules.classModule.ClassModule;
+import in.twizmwaz.cardinal.module.modules.classes.ClassModule;
 import in.twizmwaz.cardinal.module.modules.filter.FilterModule;
 import in.twizmwaz.cardinal.module.modules.filter.FilterState;
 import in.twizmwaz.cardinal.module.modules.filter.parsers.ClassFilterParser;
+
 import org.bukkit.entity.Player;
 
 import static in.twizmwaz.cardinal.module.modules.filter.FilterState.ABSTAIN;

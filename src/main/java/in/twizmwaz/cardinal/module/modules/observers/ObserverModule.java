@@ -10,12 +10,13 @@ import in.twizmwaz.cardinal.match.Match;
 import in.twizmwaz.cardinal.match.MatchState;
 import in.twizmwaz.cardinal.module.Module;
 import in.twizmwaz.cardinal.module.ModuleCollection;
-import in.twizmwaz.cardinal.module.modules.classModule.ClassModule;
+import in.twizmwaz.cardinal.module.modules.classes.ClassModule;
 import in.twizmwaz.cardinal.module.modules.spawn.SpawnModule;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
 import in.twizmwaz.cardinal.module.modules.tutorial.Tutorial;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.ItemUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -497,7 +498,7 @@ public class ObserverModule implements Module {
     public void onPlayerMove(PlayerMoveEvent event) {
         if ((TeamUtils.getTeamByPlayer(event.getPlayer()) != null && TeamUtils.getTeamByPlayer(event.getPlayer()).isObserver()) || !match.isRunning()) {
             if (event.getTo().getY() <= -64) {
-                TeamModule teamModule = TeamUtils.getTeamById("observers");
+                Team teamModule = TeamUtils.getTeamById("observers");
                 ModuleCollection<SpawnModule> modules = new ModuleCollection<>();
                 for (SpawnModule spawnModule : match.getModules().getModules(SpawnModule.class)) {
                     if (spawnModule.getTeam() == teamModule) modules.add(spawnModule);
@@ -511,7 +512,7 @@ public class ObserverModule implements Module {
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         if ((TeamUtils.getTeamByPlayer(event.getPlayer()) != null && TeamUtils.getTeamByPlayer(event.getPlayer()).isObserver()) || !match.isRunning()) {
             if (event.getTo().getY() <= -64) {
-                TeamModule teamModule = TeamUtils.getTeamById("observers");
+                Team teamModule = TeamUtils.getTeamById("observers");
                 ModuleCollection<SpawnModule> modules = new ModuleCollection<>();
                 for (SpawnModule spawnModule : match.getModules().getModules(SpawnModule.class)) {
                     if (spawnModule.getTeam() == teamModule) modules.add(spawnModule);

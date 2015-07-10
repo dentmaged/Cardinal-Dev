@@ -3,14 +3,15 @@ package in.twizmwaz.cardinal.module.modules.filter.parsers;
 import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.module.GameObjective;
 import in.twizmwaz.cardinal.module.modules.filter.FilterParser;
-import in.twizmwaz.cardinal.module.modules.team.TeamModule;
+import in.twizmwaz.cardinal.teams.Team;
 import in.twizmwaz.cardinal.util.TeamUtils;
+
 import org.jdom2.Element;
 
 public class ObjectiveFilterParser extends FilterParser {
 
     private GameObjective objective;
-    private TeamModule team;
+    private Team team;
     private boolean any;
 
     public ObjectiveFilterParser(final Element element) {
@@ -53,7 +54,7 @@ public class ObjectiveFilterParser extends FilterParser {
         return objective;
     }
 
-    public TeamModule getTeam() {
+    public Team getTeam() {
         return team;
     }
 
